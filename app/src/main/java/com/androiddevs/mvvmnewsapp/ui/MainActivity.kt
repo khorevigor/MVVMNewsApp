@@ -2,17 +2,13 @@ package com.androiddevs.mvvmnewsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.androiddevs.mvvmnewsapp.R
-import com.androiddevs.mvvmnewsapp.api.NewsAPI
-import com.androiddevs.mvvmnewsapp.api.RetrofitInstance
 import com.androiddevs.mvvmnewsapp.databinding.ActivityMainBinding
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
