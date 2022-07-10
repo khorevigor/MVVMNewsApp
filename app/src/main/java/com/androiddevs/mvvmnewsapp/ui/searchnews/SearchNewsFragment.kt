@@ -36,7 +36,7 @@ class SearchNewsFragment: ViewBindingFragment<FragmentSearchNewsBinding>(Fragmen
 
         setupRecyclerViewAdapter()
 
-        newsAdapter.onItemClickListener = {
+        newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("article", it)
             }

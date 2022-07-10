@@ -19,11 +19,13 @@ import com.androiddevs.mvvmnewsapp.models.NewsResponse
 import com.androiddevs.mvvmnewsapp.ui.NewsViewModel
 import com.androiddevs.mvvmnewsapp.utils.Resource
 import com.androiddevs.mvvmnewsapp.utils.TAG
+import com.androiddevs.mvvmnewsapp.utils.collectLatestLifeCycleFlow
 import com.androiddevs.mvvmnewsapp.utils.viewbinding.ViewBindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class BreakingNewsFragment :
@@ -37,15 +39,18 @@ class BreakingNewsFragment :
 
         setupRecyclerViewAdapter()
 
-        newsAdapter.onItemClickListener = {
+        newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("article", it)
             }
+
+            Log.d(TAG, bundle.toString())
 
             findNavController().navigate(
                 R.id.action_breakingNewsFragment_to_articleFragment,
                 bundle
             )
+            Log.d(TAG, it.toString())
         }
 
         collectLatestLifeCycleFlow(viewModel.breakingNews) { response ->
@@ -93,14 +98,6 @@ class BreakingNewsFragment :
         binding.rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
-        }
-    }
-
-    private fun <T> collectLatestLifeCycleFlow(flow: Flow<T>, collector: suspend (T) -> Unit) {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                flow.collectLatest(collector)
-            }
         }
     }
 }

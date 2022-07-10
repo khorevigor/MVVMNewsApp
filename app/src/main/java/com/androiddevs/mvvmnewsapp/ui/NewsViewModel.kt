@@ -3,6 +3,7 @@ package com.androiddevs.mvvmnewsapp.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Query
+import com.androiddevs.mvvmnewsapp.models.Article
 import com.androiddevs.mvvmnewsapp.models.NewsResponse
 import com.androiddevs.mvvmnewsapp.repository.NewsRepository
 import com.androiddevs.mvvmnewsapp.utils.Resource
@@ -48,6 +49,20 @@ class NewsViewModel @Inject constructor(
 
             val response = newsRepository.searchNews(query, _searchNewsPage)
             _searchNews.value = handleNewsResponse(response)
+        }
+    }
+
+    fun saveArticle(article: Article) {
+        viewModelScope.launch {
+            newsRepository.insertOrUpdate(article)
+        }
+    }
+
+    fun getSavedNewsFlow() = newsRepository.getSavedNews()
+
+    fun deleteArticle(article: Article) {
+        viewModelScope.launch {
+            newsRepository.deleteArticle(article)
         }
     }
 
